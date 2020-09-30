@@ -1,12 +1,14 @@
 import tweepy
 import re
 import pandas as pd
+from keys import consumer_key, consumer_key_secret,access_token, access_token_secret
 
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth = tweepy.OAuthHandler(consumer_key, consumer_key_secret)
 auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 df  = pd.DataFrame()
+user = ''
 
 def obter_tweets(usuario, limite=10):
     i = 0
@@ -26,20 +28,14 @@ def obter_tweets(usuario, limite=10):
 def createDataFrame(user_tweets, dataframe):
     df = pd.DataFrame(data=user_tweets, columns=['tweet', 'user'])
     return pd.concat([dataframe, df])
-    
-user_tweets = obter_tweets('dradez_19', 5)
-df = createDataFrame(user_tweets, df)
 
-user_tweets = obter_tweets('Wh0u4n', 5)
-df =createDataFrame(user_tweets, df)
 
-user_tweets = obter_tweets('MaewHg', 5)
-df = createDataFrame(user_tweets, df)
+while True:
+    user=input('Digite o usuário, não precisa digitar @: \n')
+    if(user == '0'):
+        break  
+    user_tweets = obter_tweets(user, 5)
+    df = createDataFrame(user_tweets, df)
 
-user_tweets = obter_tweets('luscas', 5)
-df = createDataFrame(user_tweets, df)
 
-user_tweets = obter_tweets('M_Guizona', 5)
-df = createDataFrame(user_tweets, df)
-
-print(df)
+df.to_csv('tweets.csv', index=False)
