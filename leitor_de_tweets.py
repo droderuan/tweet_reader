@@ -31,7 +31,7 @@ def createDataFrame(user_tweets, dataframe):
 
 
 while True:
-    user=input('Digite o usuário, não precisa digitar @: \n')
+    user=input('Digite o usuário, não precisa digitar @ \nPara parar digite 0 \n')
     if(user == '0'):
         break  
     user_tweets = obter_tweets(user, 5)
